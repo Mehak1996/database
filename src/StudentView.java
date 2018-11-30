@@ -127,7 +127,7 @@ public class StudentView extends javax.swing.JFrame {
         String percentage = jTextField3.getText();
     
         try{         
-             String query = "insert into student(id,name,percentage) values("+"'"+studentId+"'"+","+"'"+studentName+"'"+","+percentage+")";
+             String query = "insert into student(id,name,percentage,placed) values("+"'"+studentId+"'"+","+"'"+studentName+"'"+","+percentage+","+false+")";
              System.out.print(query);
          //ResultSet   rs=smt3.executeQueryUpdate(query);
              
