@@ -58,18 +58,18 @@ public class AdminShowStudents extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"name1",  new Integer(33), "4",  new Boolean(true)},
-                {"name2",  new Integer(44), "6", null}
+                {"name1",  new Integer(33),  new Integer(4),  new Boolean(true)},
+                {"name2",  new Integer(44),  new Integer(7), null}
             },
             new String [] {
                 "Name", "Percentage", "ID", "recruited"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,7 +131,7 @@ public class AdminShowStudents extends javax.swing.JFrame {
         TableModel model = jTable1.getModel();
         String name = (String) model.getValueAt(index, 0);
         int percent = (int) model.getValueAt(index, 1);
-        String id = (String) model.getValueAt(index, 2);
+        int id = (int) model.getValueAt(index, 2);
        
         new setRecruiter(name,percent,id).setVisible(true);
     }//GEN-LAST:event_jTable1MouseClicked

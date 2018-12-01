@@ -1,4 +1,5 @@
 
+import javax.swing.JComboBox;
 import javax.swing.ListModel;
 
 /*
@@ -19,13 +20,16 @@ public class setRecruiter extends javax.swing.JFrame {
     public setRecruiter() {
         initComponents();
     }
-     public setRecruiter(String name,int ID, String percentage) {
+     public setRecruiter(String name,int ID, int percentage) {
       initComponents();
       studentName.setText(name);
       studentID.setText(Integer.toString(ID)); 
-      studentPercentage.setText(percentage);
+      studentPercentage.setText(Integer.toString(percentage));
+      for(int i=0;i<3;i++){
+          recruiterList.addItem("item "+ i);
+      }
+     // recruiterList.setSelectedIndex(null);
      }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,9 +46,8 @@ public class setRecruiter extends javax.swing.JFrame {
         studentName = new javax.swing.JLabel();
         studentID = new javax.swing.JLabel();
         studentPercentage = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        recuritersList = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
+        recruiterList = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,13 +64,6 @@ public class setRecruiter extends javax.swing.JFrame {
         studentID.setText("Student Name :");
 
         studentPercentage.setText("Student Name :");
-
-        recuritersList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(recuritersList);
 
         jButton1.setText("Save");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -93,13 +89,17 @@ public class setRecruiter extends javax.swing.JFrame {
                             .addComponent(studentPercentage)
                             .addComponent(studentID)
                             .addComponent(studentName)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(138, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 163, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(recruiterList, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,12 +117,12 @@ public class setRecruiter extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(studentPercentage))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(recruiterList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(121, 121, 121)
                 .addComponent(jButton1)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,8 +173,7 @@ public class setRecruiter extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> recuritersList;
+    private javax.swing.JComboBox<String> recruiterList;
     private javax.swing.JLabel studentID;
     private javax.swing.JLabel studentName;
     private javax.swing.JLabel studentPercentage;

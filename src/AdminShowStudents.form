@@ -85,9 +85,9 @@
                   <Data value="33"/>
                   <Data value="44"/>
                 </Column>
-                <Column editable="false" title="ID" type="java.lang.String">
+                <Column editable="true" title="ID" type="java.lang.Integer">
                   <Data value="4"/>
-                  <Data value="6"/>
+                  <Data value="7"/>
                 </Column>
                 <Column editable="false" title="recruited" type="java.lang.Boolean">
                   <Data value="true"/>
