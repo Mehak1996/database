@@ -121,6 +121,7 @@ public class DatabaseConnection {
     "(id int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), " +
     " name VARCHAR(255), " +
     " companyname VARCHAR(255), " +
+    " minpercentage INTEGER NOT NULL, " +      
     " PRIMARY KEY ( id ))";
 
    stmt.executeUpdate(createRecruiterTableSQL);
