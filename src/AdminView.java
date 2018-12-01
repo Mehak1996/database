@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +18,18 @@
  */
 public class AdminView extends javax.swing.JFrame {
 
+    private Connection con = null;
+    private Statement st = null;
+    private ResultSet rs;
+
     /**
      * Creates new form AdminView
      */
-    public AdminView() {
+    public AdminView() throws SQLException {
         initComponents();
+        DatabaseConnection db = new DatabaseConnection();
+             con = db.getConnection();
+             st = db.getStatement(con);
     }
 
     /**
@@ -92,7 +107,15 @@ public class AdminView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      new AdminShowRecruiters().setVisible(true);
+        try {
+            new AdminShowRecruiters().setVisible(true);
+             
+             String query = "select * from recruiter";
+             rs = st.executeQuery(query);
+             System.out.print(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -131,7 +154,11 @@ public class AdminView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminView().setVisible(true);
+                try {
+                    new AdminView().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminView.class.getName()).log(Level.SEVERE, null, ex);
+                }
                
                 
             }

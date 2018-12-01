@@ -1,3 +1,8 @@
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,11 +14,10 @@
  * @author manpreetdhillon
  */
 public class AdminShowRecruiters extends javax.swing.JFrame {
-
     /**
      * Creates new form AdminShowRecruiters
      */
-    public AdminShowRecruiters() {
+    public AdminShowRecruiters() throws SQLException {
         initComponents();
     }
 
@@ -100,8 +104,13 @@ public class AdminShowRecruiters extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-          new AdminView().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new AdminView().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminShowRecruiters.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -134,7 +143,12 @@ public class AdminShowRecruiters extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminShowRecruiters().setVisible(true);
+                try {
+                    new AdminShowRecruiters().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminShowRecruiters.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                 
             }
         });
     }
