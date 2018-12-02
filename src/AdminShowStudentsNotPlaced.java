@@ -23,14 +23,14 @@ import javax.swing.table.TableModel;
  *
  * @author manpreetdhillon
  */
-public class AdminShowStudents extends javax.swing.JFrame {
+public class AdminShowStudentsNotPlaced extends javax.swing.JFrame {
 
     /**
-     * Creates new form AdminShowStudents
+     * Creates new form AdminShowStudentsNotPlaced
      */
     Connection connection;
     Statement statement;
-    public AdminShowStudents() throws SQLException {
+    public AdminShowStudentsNotPlaced() throws SQLException {
         initComponents();
         DatabaseConnection db = new DatabaseConnection();
         connection = db.getConnection();
@@ -56,7 +56,7 @@ public class AdminShowStudents extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("List of Students");
+        jLabel1.setText("List of Students not placed");
 
         jButton1.setText("Back");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -107,10 +107,10 @@ public class AdminShowStudents extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 19, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -134,7 +134,7 @@ public class AdminShowStudents extends javax.swing.JFrame {
             // TODO add your handling code here:
             new AdminView().setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminShowStudents.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -158,7 +158,7 @@ public class AdminShowStudents extends javax.swing.JFrame {
     public void setDataOfTable(){
       DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         try {
-            String query = "select * from STUDENT ";
+            String query = "select * from STUDENT where placed = false";
             ResultSet rs = statement.executeQuery(query);
 
             while(rs.next()) {
@@ -206,9 +206,9 @@ public class AdminShowStudents extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new AdminShowStudents().setVisible(true);
+                    new AdminShowStudentsNotPlaced().setVisible(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(AdminShowStudents.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
