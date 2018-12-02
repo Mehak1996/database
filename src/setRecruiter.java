@@ -79,6 +79,7 @@ public class setRecruiter extends javax.swing.JFrame {
         studentPercentage = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         recruiterList = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,6 +101,13 @@ public class setRecruiter extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -131,11 +139,15 @@ public class setRecruiter extends javax.swing.JFrame {
                                 .addComponent(recruiterList, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton2)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addComponent(jButton2)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(studentName))
@@ -174,6 +186,15 @@ public class setRecruiter extends javax.swing.JFrame {
         System.out.print("recruiter id is "+recruiterId);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+         try {
+                    new AdminShowStudentsNotPlaced().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(setRecruiter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     void getRecruitersList(int percentage){
             try {
@@ -267,6 +288,7 @@ public class setRecruiter extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
