@@ -40,8 +40,6 @@ public class AdminShowStudentsNotPlaced extends javax.swing.JFrame {
         connection = db.getConnection();
         statement = db.getStatement(connection);
         setDataOfTable();
-//        AdminShowStudents showStu = new AdminShowStudents();
-//                showStu.setDataOfTable();
     }
 
     /**
@@ -165,7 +163,11 @@ public class AdminShowStudentsNotPlaced extends javax.swing.JFrame {
         int percent = (int) model.getValueAt(index, 2);
         String id = (String) model.getValueAt(index, 0);
        
-        new setRecruiter(id,name,percent).setVisible(true);
+        try {
+            new setRecruiter(id,name,percent).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -232,13 +234,13 @@ public class AdminShowStudentsNotPlaced extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminShowStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminShowStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminShowStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminShowStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminShowStudentsNotPlaced.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
