@@ -108,7 +108,6 @@ public class adminLogin extends javax.swing.JFrame {
             else
                 if(jTextField1.getText().equals("admin") && pwd.equals("admin123"))
             {
-                this.setVisible(false);
                 AdminView av;
             try {
                 av = new AdminView();

@@ -1,11 +1,16 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /*
@@ -23,8 +28,14 @@ public class AdminShowStudents extends javax.swing.JFrame {
     /**
      * Creates new form AdminShowStudents
      */
-    public AdminShowStudents() {
+    Connection connection;
+    Statement statement;
+    public AdminShowStudents() throws SQLException {
         initComponents();
+        DatabaseConnection db = new DatabaseConnection();
+        connection = db.getConnection();
+        statement = db.getStatement(connection);
+        setDataOfTable();
 //        AdminShowStudents showStu = new AdminShowStudents();
 //                showStu.setDataOfTable();
     }
@@ -61,8 +72,7 @@ public class AdminShowStudents extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"name1",  new Integer(33),  new Integer(4),  new Boolean(true)},
-                {"name2",  new Integer(44),  new Integer(7), null}
+
             },
             new String [] {
                 "Name", "Percentage", "ID", "recruited"
@@ -126,6 +136,7 @@ public class AdminShowStudents extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AdminShowStudents.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -141,25 +152,28 @@ public class AdminShowStudents extends javax.swing.JFrame {
         int id = (int) model.getValueAt(index, 2);
        
         new setRecruiter(name,percent,id).setVisible(true);
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     public void setDataOfTable(){
-         String[] columnNames = {" Name",
-                            "marks",
-                            "id",
-                            "recruited"};
-        Object[][] data = {
-            {"Kathy",56, new Integer(5), new Boolean(false)},
-            {"mathy",63, new Integer(2), new Boolean(true)},
-            {"bathy",77, new Integer(1), new Boolean(true)},
-            {"wertt",88, new Integer(4), new Boolean(false)},
-            {"ghaty",99, new Integer(6), new Boolean(false)}
-        };
-        JTable jTable1 = new JTable(data, columnNames);
-        JFrame frame = new JFrame();
-       frame.add(  new JScrollPane(jTable1) );
-       frame.pack();
-       frame.setVisible( true );
+      DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        try {
+            String query = "select * from STUDENT ";
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                int percentage = rs.getInt("percentage");
+                boolean placed = rs.getBoolean("placed");
+
+                model.addRow(new Object[] {id,name,percentage,placed});
+            }
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            //e.printStackTrace();
+        }
     }
     /**
      * @param args the command line arguments
@@ -191,9 +205,11 @@ public class AdminShowStudents extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminShowStudents().setVisible(true);
-                
-                //setDataOfTable();
+                try {
+                    new AdminShowStudents().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminShowStudents.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
