@@ -1,8 +1,11 @@
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -20,22 +23,14 @@ public class AdminShowRecruiters extends javax.swing.JFrame {
     /**
      * Creates new form AdminShowRecruiters
      */
+     Connection connection;
+    Statement statement;
     public AdminShowRecruiters() throws SQLException {
         initComponents();
-    }
-    public AdminShowRecruiters(ResultSet rs) throws SQLException {
-//        while (rs.next()) {
-//            int id = rs.getInt("id");
-//            String recName = rs.getString("name");
-//            String companyname = rs.getString("companyname");
-//            int percentage = rs.getInt("minpercentage");
-//            System.out.println(id + "\n"+recName + "\n" + companyname +
-//                               "\n" + percentage);
-//             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//             //TableModel model = jTable1.getModel();
-//             //model.setValueAt(new Object[]{id, recName,companyname,percentage}, i,);
-//             model.addRow(new Object[]{id, recName,companyname,percentage});
-//        }
+         DatabaseConnection db = new DatabaseConnection();
+        connection = db.getConnection();
+        statement = db.getStatement(connection);
+        setRecruitersTable();
     }
 
     /**
@@ -128,7 +123,25 @@ public class AdminShowRecruiters extends javax.swing.JFrame {
         }
           
     }//GEN-LAST:event_jButton1ActionPerformed
+ public void setRecruitersTable(){
+      DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        try {
+            String query = "select * from recruiter ";
+            ResultSet rs = statement.executeQuery(query);
+            while(rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String companyname = rs.getString("companyname");
+                int percentage = rs.getInt("minpercentage");
 
+                model.addRow(new Object[] {id,name,companyname,percentage});
+            }
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            //e.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */
