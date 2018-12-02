@@ -1,7 +1,10 @@
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,6 +22,20 @@ public class AdminShowRecruiters extends javax.swing.JFrame {
      */
     public AdminShowRecruiters() throws SQLException {
         initComponents();
+    }
+    public AdminShowRecruiters(ResultSet rs) throws SQLException {
+//        while (rs.next()) {
+//            int id = rs.getInt("id");
+//            String recName = rs.getString("name");
+//            String companyname = rs.getString("companyname");
+//            int percentage = rs.getInt("minpercentage");
+//            System.out.println(id + "\n"+recName + "\n" + companyname +
+//                               "\n" + percentage);
+//             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//             //TableModel model = jTable1.getModel();
+//             //model.setValueAt(new Object[]{id, recName,companyname,percentage}, i,);
+//             model.addRow(new Object[]{id, recName,companyname,percentage});
+//        }
     }
 
     /**
@@ -48,8 +65,7 @@ public class AdminShowRecruiters extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(2), "name1", "ABC",  new Integer(33)},
-                { new Integer(1), "name2", "DEF",  new Integer(44)}
+
             },
             new String [] {
                 "ID", "RecruiterName", "Company Name", "Min requirement"

@@ -108,11 +108,9 @@ public class AdminView extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            new AdminShowRecruiters().setVisible(true);
-             
              String query = "select * from recruiter";
              rs = st.executeQuery(query);
-             System.out.print(rs);
+             new AdminShowRecruiters(rs).setVisible(true);    
         } catch (SQLException ex) {
             Logger.getLogger(AdminView.class.getName()).log(Level.SEVERE, null, ex);
         }
