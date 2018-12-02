@@ -49,10 +49,16 @@ public class setRecruiter extends javax.swing.JFrame {
       studentPercentage.setText(Integer.toString(percentage));
       getRecruitersList(percentage);
       System.out.println(array);
-      for(int i=0;i<array.length();i++){
+      if (array.length() == 0){
+          recruiterList.addItem("Not Eligible for any recruiter");  
+      }
+      else{
+          for(int i=0;i<array.length();i++){
           getItem = array.getJSONObject(i);
           recruiterList.addItem(getItem.getString("name")+", "+getItem.getString("companyname"));
+      }  
       }
+      
      // recruiterList.setSelectedIndex(null);
      }
     /**
@@ -119,7 +125,7 @@ public class setRecruiter extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 163, Short.MAX_VALUE)
+                                .addGap(0, 173, Short.MAX_VALUE)
                                 .addComponent(jButton1))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(recruiterList, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,6 +160,11 @@ public class setRecruiter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (array.length() == 0){
+          JOptionPane.showMessageDialog(this, "Student with student id = "+stuId+" and name = "+stuName+" not eligible for any recruiter!");
+                             
+         }
+        else{
         int index = recruiterList.getSelectedIndex();
         getItem = array.getJSONObject(index);
         int recruiterId = getItem.getInt("id");
@@ -161,6 +172,7 @@ public class setRecruiter extends javax.swing.JFrame {
         String companyName = getItem.getString("companyname");
         insertIntoAdminTable(recruiterId, recruiterName, companyName);
         System.out.print("recruiter id is "+recruiterId);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     
     void getRecruitersList(int percentage){
@@ -225,9 +237,12 @@ public class setRecruiter extends javax.swing.JFrame {
             try{         
              String query = "insert into ADMIN(studentid, recruiterid) values("+"'"+stuId+"'"+","+recruiterId+")";
              System.out.print(query);
-             
-                       int success=statement.executeUpdate(query);
-                            if(success==1)
+             int success=statement.executeUpdate(query);
+             String query1 = "UPDATE STUDENT SET placed = true WHERE id = "+"'"+stuId+"'";
+             System.out.print(query);
+             int success_1=statement.executeUpdate(query1);
+             System.out.print(success_1);
+                            if ((success==1) && (success_1==1))
                             {
                                 JOptionPane.showMessageDialog(this, "Student with student id = "+stuId+" and name = "+stuName+" is employed by employer "+recruiterName+", "+companyName);
                                //emp1.showMessageDialog(this, "Problem in Saving. Retry");
