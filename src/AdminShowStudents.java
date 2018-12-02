@@ -151,7 +151,11 @@ public class AdminShowStudents extends javax.swing.JFrame {
         int percent = (int) model.getValueAt(index, 2);
         String id = (String) model.getValueAt(index, 0);
        
-        new setRecruiter(id,name,percent).setVisible(true);
+        try {
+            new setRecruiter(id,name,percent).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminShowStudents.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jTable1MouseClicked
 

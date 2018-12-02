@@ -1,6 +1,15 @@
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,16 +26,32 @@ public class setRecruiter extends javax.swing.JFrame {
     /**
      * Creates new form setRecruiter
      */
-    public setRecruiter() {
+    Connection connection = null;
+    Statement statement = null;
+    JSONArray array = new JSONArray();
+    JSONObject getItem;
+    String stuId;
+    String stuName;
+   
+
+    public setRecruiter() throws SQLException {
         initComponents();
     }
-     public setRecruiter(String id,String name, int percentage) {
+     public setRecruiter(String id,String name, int percentage) throws SQLException {
       initComponents();
+      stuId = id;
+      stuName = name;
+      DatabaseConnection db = new DatabaseConnection();
+      connection = db.getConnection();
+      statement = db.getStatement(connection);
       studentName.setText(name);
       studentID.setText(id); 
       studentPercentage.setText(Integer.toString(percentage));
-      for(int i=0;i<3;i++){
-          recruiterList.addItem("item "+ i);
+      getRecruitersList(percentage);
+      System.out.println(array);
+      for(int i=0;i<array.length();i++){
+          getItem = array.getJSONObject(i);
+          recruiterList.addItem(getItem.getString("name")+", "+getItem.getString("companyname"));
       }
      // recruiterList.setSelectedIndex(null);
      }
@@ -97,7 +122,7 @@ public class setRecruiter extends javax.swing.JFrame {
                                 .addGap(0, 163, Short.MAX_VALUE)
                                 .addComponent(jButton1))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(recruiterList, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(recruiterList, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(28, 28, 28))
         );
@@ -129,9 +154,33 @@ public class setRecruiter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        int index = recruiterList.getSelectedIndex();
+        getItem = array.getJSONObject(index);
+        int recruiterId = getItem.getInt("id");
+        String recruiterName = getItem.getString("name");
+        String companyName = getItem.getString("companyname");
+        insertIntoAdminTable(recruiterId, recruiterName, companyName);
+        System.out.print("recruiter id is "+recruiterId);
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    void getRecruitersList(int percentage){
+            try {
+            //String query = "select * from STUDENT ";
+            String query = "select * from RECRUITER where minpercentage <= "+percentage;
+            ResultSet rs = statement.executeQuery(query);
+            System.out.print("result set is "+rs);
+            while(rs.next()) {
+                 JSONObject item = new JSONObject();
+                 item.put("name", rs.getString("name"));
+                 item.put("companyname", rs.getString("companyname"));
+                 item.put("id", rs.getInt("id"));
+                 array.put(item);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -162,9 +211,43 @@ public class setRecruiter extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new setRecruiter().setVisible(true);
+                try {
+                    new setRecruiter().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(setRecruiter.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
+    }
+    
+    void insertIntoAdminTable(int recruiterId, String recruiterName, String companyName)
+    {
+            try{         
+             String query = "insert into ADMIN(studentid, recruiterid) values("+"'"+stuId+"'"+","+recruiterId+")";
+             System.out.print(query);
+             
+                       int success=statement.executeUpdate(query);
+                            if(success==1)
+                            {
+                                JOptionPane.showMessageDialog(this, "Student with student id = "+stuId+" and name = "+stuName+" is employed by employer "+recruiterName+", "+companyName);
+                               //emp1.showMessageDialog(this, "Problem in Saving. Retry");
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "Error in assigning student with id = "+stuId+" and name = "+stuName+" to employer "+recruiterName+", "+companyName+". Please try again!");
+                            }
+                        try {
+    if (connection != null)
+     connection.close();
+   } catch (SQLException se) {
+    se.printStackTrace();
+   }
+        }
+
+    catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
