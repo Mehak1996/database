@@ -20,10 +20,10 @@ public class setRecruiter extends javax.swing.JFrame {
     public setRecruiter() {
         initComponents();
     }
-     public setRecruiter(String name,int ID, int percentage) {
+     public setRecruiter(String id,String name, int percentage) {
       initComponents();
       studentName.setText(name);
-      studentID.setText(Integer.toString(ID)); 
+      studentID.setText(id); 
       studentPercentage.setText(Integer.toString(percentage));
       for(int i=0;i<3;i++){
           recruiterList.addItem("item "+ i);

@@ -75,14 +75,14 @@ public class AdminShowStudents extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Percentage", "ID", "recruited"
+                "ID", "Name", "Percentage", "recruited"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -147,11 +147,11 @@ public class AdminShowStudents extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = jTable1.getSelectedRow();
         TableModel model = jTable1.getModel();
-        String name = (String) model.getValueAt(index, 0);
-        int percent = (int) model.getValueAt(index, 1);
-        int id = (int) model.getValueAt(index, 2);
+        String name = (String) model.getValueAt(index, 1);
+        int percent = (int) model.getValueAt(index, 2);
+        String id = (String) model.getValueAt(index, 0);
        
-        new setRecruiter(name,percent,id).setVisible(true);
+        new setRecruiter(id,name,percent).setVisible(true);
         
     }//GEN-LAST:event_jTable1MouseClicked
 
