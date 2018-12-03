@@ -174,8 +174,9 @@ public class AdminShowStudentsNotPlaced extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
  try {
+     
         TableModel model = jTable1.getModel();
-        FileWriter csv = new FileWriter(new File("/Users/manpreetdhillon/Desktop/report.csv"));
+        FileWriter csv = new FileWriter(new File("/Users/manpreetdhillon/Desktop/UnplacedStudents.csv"));
 
         for (int i = 0; i <model.getColumnCount(); i++) {
             csv.write(model.getColumnName(i) + ",");

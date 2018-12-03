@@ -1,4 +1,7 @@
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,6 +50,7 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,14 +73,14 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Percentage", "recruited"
+                "StudentId", "StudentName", "Percentage", "recruited", "RecruiterId", "RecruiterName", "RecruiterCompanyName"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -94,6 +98,13 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButton2.setText("Download report");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,11 +113,12 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2))
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,8 +126,9 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -149,19 +162,48 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            TableModel model = jTable1.getModel();
+            FileWriter csv = new FileWriter(new File("/Users/manpreetdhillon/Desktop/placedStudents.csv"));
+
+            for (int i = 0; i <model.getColumnCount(); i++) {
+                csv.write(model.getColumnName(i) + ",");
+
+            }
+
+            csv.write("\n");
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    csv.write(model.getValueAt(i, j).toString() + ",");
+                }
+                csv.write("\n");
+            }
+
+            csv.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        } 
+    }//GEN-LAST:event_jButton2ActionPerformed
+
      public void setDataOfTable(){
       DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         try {
-            String query = "select * from STUDENT where placed = true";
+           String query = "select STUDENT.ID as STUDENTID,STUDENT.NAME as STUDENT_NAME,STUDENT.PERCENTAGE,STUDENT.PLACED,RECRUITER.ID AS RECRUITERID ,RECRUITER.NAME AS RECRUITER_NAME,RECRUITER.COMPANYNAME from STUDENT,ADMIN,RECRUITER where placed = true and STUDENT.ID = ADMIN.STUDENTID and RECRUITER.ID = ADMIN.RECRUITERID";
             ResultSet rs = statement.executeQuery(query);
 
             while(rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
+                String studentId = rs.getString("STUDENTID");
+                String studentName = rs.getString("STUDENT_NAME");
                 int percentage = rs.getInt("percentage");
                 boolean placed = rs.getBoolean("placed");
+                String recId = rs.getString("RECRUITERID");
+                String recName = rs.getString("RECRUITER_NAME");
+                String recCompName = rs.getString("COMPANYNAME");
 
-                model.addRow(new Object[] {id,name,percentage,placed});
+                model.addRow(new Object[] {studentId,studentName,percentage,placed,recId,recName,recCompName});
             }
             rs.close();
         } catch (Exception e) {
@@ -210,6 +252,7 @@ public class AdminShowStudentsPlaced extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
